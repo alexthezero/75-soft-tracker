@@ -97,74 +97,14 @@ function drawEmptyStarterCard(doc, x, y, w, h) {
   doc.setFont("helvetica", "bold");
   doc.setFontSize(10);
   doc.setTextColor(66, 88, 60);
-  const steps = ["1. Pick today's movement", "2. Enter water consumed", "3. Save weight if tracking", "4. Check off tasks", "5. Add a quick daily note"];
-  steps.forEach((step, index) => doc.text(step, x + 20, y + 116 + index * 18));
-}
-
-function drawChecklistSnapshot(doc, entry, x, y) {
-  let taskY = y;
-  tasks.forEach(task => {
-    const done = Boolean(entry.checks?.[task.id]);
-    doc.setFillColor(done ? 111 : 255, done ? 128 : 255, done ? 101 : 255);
-    doc.setDrawColor(111, 128, 101);
-    doc.roundedRect(x, taskY - 9, 11, 11, 2, 2, done ? "FD" : "D");
-    doc.setFont("helvetica", done ? "bold" : "normal");
-    doc.setFontSize(10);
-    doc.setTextColor(31, 34, 28);
-    doc.text(task.title, x + 20, taskY);
-    taskY += 20;
-  });
-}
-
-function drawProgressGrid(doc, dates, state, weights, x, y) {
-  const size = 22;
-  const gap = 8;
-  const columns = 15;
-
-  dates.forEach((date, index) => {
-    const entry = state.entries[date];
-    const row = Math.floor(index / columns);
-    const column = index % columns;
-    const dotX = x + column * (size + gap);
-    const dotY = y + row * (size + gap);
-
-    if (isComplete(entry)) {
-      doc.setFillColor(111, 128, 101);
-      doc.setDrawColor(111, 128, 101);
-    } else if (isPartial(entry) || weights[date]) {
-      doc.setFillColor(244, 217, 170);
-      doc.setDrawColor(229, 189, 119);
-    } else {
-      doc.setFillColor(255, 255, 255);
-      doc.setDrawColor(222, 215, 201);
-    }
-
-    doc.roundedRect(dotX, dotY, size, size, 5, 5, "FD");
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(index + 1 >= 10 ? 7 : 8);
-    doc.setTextColor(isComplete(entry) ? 255 : 109, isComplete(entry) ? 255 : 112, isComplete(entry) ? 255 : 101);
-    doc.text(String(index + 1), dotX + size / 2, dotY + 14, { align: "center" });
-  });
-}
-
-function drawLegend(doc, x, y) {
-  const items = [
-    { label: "Complete", fill: [111, 128, 101], stroke: [111, 128, 101], text: [255, 255, 255] },
-    { label: "Partial / weight logged", fill: [244, 217, 170], stroke: [229, 189, 119], text: [31, 34, 28] },
-    { label: "Open", fill: [255, 255, 255], stroke: [222, 215, 201], text: [31, 34, 28] }
+  const steps = [
+    "1. Pick today's movement",
+    "2. Enter water consumed",
+    "3. Save weight if tracking",
+    "4. Check off tasks",
+    "5. Add a quick daily note"
   ];
-
-  let offset = 0;
-  items.forEach(item => {
-    doc.setFillColor(...item.fill);
-    doc.setDrawColor(...item.stroke);
-    doc.roundedRect(x + offset, y - 9, 12, 12, 3, 3, "FD");
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(9);
-    doc.setTextColor(109, 112, 101);
-    doc.text(item.label, x + offset + 18, y + 1);
-    offset += item.label.length * 4.7 + 34;
-  });
+  steps.forEach((step, index) => doc.text(step, x + 20, y + 112 + index * 16));
 }
 
 function exportTrackerPdfWithWeight() {
@@ -243,10 +183,10 @@ function exportTrackerPdfWithWeight() {
   doc.text(`Weight: ${weightSummary}`, 36, 352);
 
   if (!hasAnyProgress) {
-    drawEmptyStarterCard(doc, 36, 378, 540, 178);
+    drawEmptyStarterCard(doc, 36, 378, 540, 176);
   }
 
-  const snapshotY = hasAnyProgress ? 378 : 585;
+  const snapshotY = hasAnyProgress ? 378 : 592;
   doc.setFont("helvetica", "bold");
   doc.setFontSize(16);
   doc.setTextColor(31, 34, 28);
@@ -283,70 +223,59 @@ function exportTrackerPdfWithWeight() {
   doc.text(`Notes: ${notesText}`, 56, snapshotY + 134);
 
   doc.addPage();
-  pdfHeader(doc, "75-Day Visual History", "Green = complete • Gold = partial or weight logged • White = open");
+  pdfHeader(doc, "75-Day Daily List", "Full daily list • Water, weight, activity, notes, and status");
 
   doc.setFont("helvetica", "bold");
   doc.setFontSize(16);
   doc.setTextColor(31, 34, 28);
-  doc.text("Challenge Grid", 36, 158);
-  drawLegend(doc, 36, 178);
-  drawProgressGrid(doc, dates, state, weights, 36, 202);
+  doc.text("Daily List", 36, 158);
 
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(14);
-  doc.setTextColor(31, 34, 28);
-  doc.text("Logged Entries", 36, 390);
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(10);
+  doc.setTextColor(109, 112, 101);
+  doc.text("All 75 days are listed below. Blank days stay visible so the PDF can work as a printable tracker too.", 36, 177);
 
-  if (loggedRows.length === 0) {
-    doc.setFillColor(255, 255, 255);
-    doc.setDrawColor(222, 215, 201);
-    doc.roundedRect(36, 408, 540, 126, 16, 16, "FD");
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(15);
-    doc.setTextColor(66, 88, 60);
-    doc.text("No entries logged yet", 56, 442);
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(10.5);
-    doc.setTextColor(109, 112, 101);
-    doc.text(doc.splitTextToSize("Once you save water, weight, activity, checklist items, or notes, this section will show only the days with real data instead of filling the PDF with blank rows.", 500), 56, 466);
-  } else if (typeof doc.autoTable === "function") {
-    const tableRows = loggedRows.map(date => {
-      const index = dates.indexOf(date);
-      const dayEntry = state.entries[date];
-      return [
-        `Day ${index + 1}`,
-        formatShortDate(date),
-        getStatusLabel(dayEntry),
-        `${getEntryWaterOz(dayEntry)} oz`,
-        getPdfWeightForDate(weights, date),
-        getActivityTitle(dayEntry?.activityId),
-        truncateText(dayEntry?.notes || "", 34)
-      ];
-    });
+  const tableRows = dates.map((date, index) => {
+    const dayEntry = state.entries[date];
+    return [
+      `Day ${index + 1}`,
+      formatShortDate(date),
+      getStatusLabel(dayEntry),
+      `${getEntryWaterOz(dayEntry)} oz`,
+      getPdfWeightForDate(weights, date),
+      getActivityTitle(dayEntry?.activityId),
+      truncateText(dayEntry?.notes || "", 38)
+    ];
+  });
 
+  if (typeof doc.autoTable === "function") {
     doc.autoTable({
-      startY: 410,
+      startY: 198,
       head: [["Day", "Date", "Status", "Water", "Weight", "Activity", "Notes"]],
       body: tableRows,
-      theme: "grid",
+      theme: "plain",
       styles: {
         font: "helvetica",
         fontSize: 8,
-        cellPadding: 4,
+        cellPadding: { top: 6, right: 4, bottom: 6, left: 4 },
         textColor: [31, 34, 28],
         lineColor: [222, 215, 201],
-        lineWidth: 0.6
+        lineWidth: 0.4
       },
       headStyles: {
         fillColor: [111, 128, 101],
         textColor: [255, 255, 255],
         fontStyle: "bold"
       },
+      bodyStyles: {
+        lineColor: [222, 215, 201],
+        lineWidth: 0.35
+      },
       alternateRowStyles: {
         fillColor: [249, 246, 239]
       },
       columnStyles: {
-        0: { cellWidth: 48 },
+        0: { cellWidth: 48, fontStyle: "bold" },
         1: { cellWidth: 68 },
         2: { cellWidth: 54 },
         3: { cellWidth: 48 },
@@ -354,8 +283,35 @@ function exportTrackerPdfWithWeight() {
         5: { cellWidth: 112 },
         6: { cellWidth: 156 }
       },
-      margin: { left: 36, right: 36 }
+      margin: { left: 36, right: 36 },
+      didParseCell: data => {
+        if (data.section === "body" && data.column.index === 2) {
+          const status = data.cell.raw;
+          if (status === "Complete") data.cell.styles.textColor = [66, 88, 60];
+          if (status === "Partial") data.cell.styles.textColor = [145, 91, 18];
+        }
+      },
+      didDrawPage: data => {
+        if (data.pageNumber > 1) {
+          doc.setFont("helvetica", "bold");
+          doc.setFontSize(11);
+          doc.setTextColor(66, 88, 60);
+          doc.text("75-Day Daily List", 36, 30);
+        }
+      }
     });
+  } else {
+    doc.setFillColor(255, 255, 255);
+    doc.setDrawColor(222, 215, 201);
+    doc.roundedRect(36, 198, 540, 126, 16, 16, "FD");
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(15);
+    doc.setTextColor(66, 88, 60);
+    doc.text("Daily list could not load", 56, 232);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10.5);
+    doc.setTextColor(109, 112, 101);
+    doc.text("The PDF summary was created, but the table library did not load in time.", 56, 256);
   }
 
   const totalPages = doc.internal.getNumberOfPages();
