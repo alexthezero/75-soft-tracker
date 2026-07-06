@@ -7,9 +7,9 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="75 Soft" />
   <title>75 Soft Tracker</title>
-  <link rel="manifest" href="manifest.webmanifest?v=6" />
-  <link rel="icon" href="icon.svg?v=6" type="image/svg+xml" />
-  <link rel="stylesheet" href="styles.css?v=6" />
+  <link rel="manifest" href="manifest.webmanifest?v=7" />
+  <link rel="icon" href="icon.svg?v=7" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css?v=7" />
 </head>
 <body>
   <div class="shell">
@@ -130,12 +130,19 @@
       </section>
 
       <section class="content-grid lower-grid">
-        <article class="card">
+        <article class="card weight-card">
           <div class="section-heading stacked">
-            <p class="eyebrow">Suggested weekly rhythm</p>
-            <h2>Simple home plan</h2>
+            <p class="eyebrow">Body weight</p>
+            <h2>Weight tracker</h2>
           </div>
-          <div class="week-list" id="weekList"></div>
+          <label for="weightLb">Weight today (lb)</label>
+          <div class="start-row">
+            <input id="weightLb" type="number" inputmode="decimal" min="0" step="0.1" placeholder="Example: 210.4" />
+            <button class="primary-btn" id="saveWeight">Save Weight</button>
+          </div>
+          <p class="hint">Saved for the selected day. Use the day arrows or history grid to log weight on other days.</p>
+          <p class="hint"><strong id="weightStatus">No weight logged for this day yet.</strong></p>
+          <div id="weekList" hidden></div>
         </article>
 
         <article class="card notes-card">
@@ -174,5 +181,81 @@
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
   <script src="script.js?v=6"></script>
+  <script>
+    (function () {
+      const WEIGHT_KEY = "soft75Weight.v1";
+      const input = document.getElementById("weightLb");
+      const button = document.getElementById("saveWeight");
+      const status = document.getElementById("weightStatus");
+
+      function loadWeights() {
+        try {
+          return JSON.parse(localStorage.getItem(WEIGHT_KEY)) || {};
+        } catch {
+          return {};
+        }
+      }
+
+      function saveWeights(weights) {
+        localStorage.setItem(WEIGHT_KEY, JSON.stringify(weights));
+      }
+
+      function getDateKey() {
+        return typeof selectedDate !== "undefined" ? selectedDate : new Date().toISOString().slice(0, 10);
+      }
+
+      function renderWeight() {
+        if (!input || !status) return;
+        const weights = loadWeights();
+        const dateKey = getDateKey();
+        const saved = weights[dateKey];
+        input.value = saved || "";
+        status.textContent = saved ? `${saved} lb logged for this day.` : "No weight logged for this day yet.";
+      }
+
+      function saveWeight() {
+        if (!input) return;
+        const raw = input.value.trim();
+        const weights = loadWeights();
+        const dateKey = getDateKey();
+
+        if (raw === "") {
+          delete weights[dateKey];
+          saveWeights(weights);
+          renderWeight();
+          if (typeof showToast === "function") showToast("Weight cleared");
+          return;
+        }
+
+        const value = Number(raw);
+        if (!Number.isFinite(value) || value <= 0) {
+          if (typeof showToast === "function") showToast("Enter a valid weight in lb.");
+          return;
+        }
+
+        weights[dateKey] = value.toFixed(1).replace(/\.0$/, "");
+        saveWeights(weights);
+        renderWeight();
+        if (typeof showToast === "function") showToast("Weight saved");
+      }
+
+      if (button) button.addEventListener("click", saveWeight);
+      if (input) {
+        input.addEventListener("keydown", event => {
+          if (event.key === "Enter") saveWeight();
+        });
+      }
+
+      if (typeof render === "function") {
+        const originalRender = render;
+        render = function () {
+          originalRender();
+          renderWeight();
+        };
+      }
+
+      renderWeight();
+    })();
+  </script>
 </body>
 </html>
