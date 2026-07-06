@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#6f8065" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="75 Soft" />
+  <title>75 Soft Tracker</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">No-gym health challenge</p>
+        <h1>75 Soft Tracker</h1>
+        <p class="subtitle">Daily movement, water, reading, nutrition, and consistency — built for home, walking, and real life.</p>
+      </div>
+      <button class="ghost-btn" id="installBtn" hidden>Install App</button>
+    </header>
+
+    <main>
+      <section class="hero-grid">
+        <article class="card hero-card">
+          <div class="date-controls">
+            <button class="circle-btn" id="prevDay" aria-label="Previous day">‹</button>
+            <div>
+              <p class="small-label" id="selectedDateLabel">Today</p>
+              <h2 id="dayHeading">Day 1 of 75</h2>
+            </div>
+            <button class="circle-btn" id="nextDay" aria-label="Next day">›</button>
+          </div>
+
+          <div class="meter-wrap" aria-label="Today's completion progress">
+            <div class="meter-fill" id="dailyMeter"></div>
+          </div>
+          <div class="hero-footer">
+            <span id="dailyPercent">0% complete</span>
+            <span id="dailyStatus">Keep going</span>
+          </div>
+        </article>
+
+        <article class="card start-card">
+          <label for="startDate">Challenge start date</label>
+          <div class="start-row">
+            <input id="startDate" type="date" />
+            <button class="primary-btn" id="saveStart">Save</button>
+          </div>
+          <p class="hint">Your progress saves on this device. Add it to your phone home screen after GitHub Pages is live.</p>
+        </article>
+      </section>
+
+      <section class="stats-grid" aria-label="Challenge stats">
+        <div class="stat-card">
+          <strong id="completedDays">0</strong>
+          <span>completed</span>
+        </div>
+        <div class="stat-card">
+          <strong id="currentStreak">0</strong>
+          <span>day streak</span>
+        </div>
+        <div class="stat-card">
+          <strong id="daysLeft">75</strong>
+          <span>days left</span>
+        </div>
+        <div class="stat-card">
+          <strong id="bestStreak">0</strong>
+          <span>best streak</span>
+        </div>
+      </section>
+
+      <section class="content-grid">
+        <article class="card checklist-card">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Daily checklist</p>
+              <h2>Today’s 75 Soft tasks</h2>
+            </div>
+            <button class="secondary-btn" id="completeAll">Complete all</button>
+          </div>
+
+          <div class="checklist" id="checklist"></div>
+
+          <div class="water-panel">
+            <div>
+              <p class="small-label">Water goal</p>
+              <h3><span id="waterLiters">0.0</span> / 3.0 L</h3>
+            </div>
+            <div class="water-buttons">
+              <button class="secondary-btn" data-water="250">+250 ml</button>
+              <button class="secondary-btn" data-water="500">+500 ml</button>
+              <button class="secondary-btn" data-water="750">+750 ml</button>
+              <button class="ghost-btn" id="resetWater">Reset</button>
+            </div>
+            <div class="mini-meter"><div id="waterMeter"></div></div>
+          </div>
+        </article>
+
+        <aside class="card activity-card">
+          <div class="section-heading stacked">
+            <p class="eyebrow">No-gym movement</p>
+            <h2>Activity picker</h2>
+          </div>
+
+          <label for="activitySelect">Choose your 45-minute movement</label>
+          <select id="activitySelect"></select>
+
+          <div class="activity-result">
+            <p class="activity-type" id="activityType">Pick an option</p>
+            <h3 id="activityTitle">Movement idea</h3>
+            <p id="activityDescription">Choose an activity or hit random when you need a quick decision.</p>
+            <ul id="activitySteps"></ul>
+          </div>
+
+          <button class="primary-btn full" id="randomActivity">Pick random activity</button>
+        </aside>
+      </section>
+
+      <section class="content-grid lower-grid">
+        <article class="card">
+          <div class="section-heading stacked">
+            <p class="eyebrow">Suggested weekly rhythm</p>
+            <h2>Simple home plan</h2>
+          </div>
+          <div class="week-list" id="weekList"></div>
+        </article>
+
+        <article class="card notes-card">
+          <div class="section-heading stacked">
+            <p class="eyebrow">Daily log</p>
+            <h2>Notes</h2>
+          </div>
+          <textarea id="notes" placeholder="Example: 45-minute walk after dinner. Hit water goal. Read 10 pages before bed. Energy was decent."></textarea>
+          <div class="button-row">
+            <button class="primary-btn" id="saveDay">Save day</button>
+            <button class="secondary-btn" id="jumpToday">Today</button>
+            <button class="danger-btn" id="clearDay">Clear day</button>
+          </div>
+        </article>
+      </section>
+
+      <section class="card history-card">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">75-day view</p>
+            <h2>Challenge history</h2>
+          </div>
+          <div class="button-row compact">
+            <button class="ghost-btn" id="exportData">Export</button>
+            <button class="danger-btn" id="resetAll">Reset all</button>
+          </div>
+        </div>
+        <div class="history-grid" id="historyGrid" aria-label="75 day challenge history"></div>
+        <p class="hint">Tap any day to review or edit it. Green means every required task is complete.</p>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
