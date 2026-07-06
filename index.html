@@ -7,9 +7,9 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="75 Soft" />
   <title>75 Soft Tracker</title>
-  <link rel="manifest" href="manifest.webmanifest?v=5" />
-  <link rel="icon" href="icon.svg?v=5" type="image/svg+xml" />
-  <link rel="stylesheet" href="styles.css?v=5" />
+  <link rel="manifest" href="manifest.webmanifest?v=6" />
+  <link rel="icon" href="icon.svg?v=6" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css?v=6" />
 </head>
 <body>
   <div class="shell">
@@ -97,11 +97,13 @@
               </div>
               <p class="hint">Your water goal is saved on this device and remembered when you return.</p>
             </div>
-            <div class="water-buttons">
-              <button class="secondary-btn" data-water-oz="8">+8 oz</button>
-              <button class="secondary-btn" data-water-oz="16">+16 oz</button>
-              <button class="secondary-btn" data-water-oz="24">+24 oz</button>
-              <button class="ghost-btn" id="resetWater">Reset</button>
+            <div class="water-consumed-card">
+              <label for="waterConsumedOz" class="small-label">Water consumed today</label>
+              <div class="start-row">
+                <input id="waterConsumedOz" type="number" inputmode="numeric" min="0" step="1" placeholder="0" />
+                <button class="primary-btn" id="saveWaterConsumed">Save Water</button>
+              </div>
+              <p class="hint">Enter your total ounces for this day. To reset today, enter 0 and save.</p>
             </div>
             <div class="mini-meter"><div id="waterMeter"></div></div>
           </div>
@@ -171,6 +173,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
-  <script src="script.js?v=5"></script>
+  <script src="script.js?v=6"></script>
 </body>
 </html>
