@@ -7,9 +7,9 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="75 Soft" />
   <title>75 Soft Tracker</title>
-  <link rel="manifest" href="manifest.webmanifest?v=4" />
-  <link rel="icon" href="icon.svg?v=4" type="image/svg+xml" />
-  <link rel="stylesheet" href="styles.css?v=4" />
+  <link rel="manifest" href="manifest.webmanifest?v=5" />
+  <link rel="icon" href="icon.svg?v=5" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css?v=5" />
 </head>
 <body>
   <div class="shell">
@@ -87,12 +87,20 @@
           <div class="water-panel">
             <div>
               <p class="small-label">Water goal</p>
-              <h3><span id="waterLiters">0.0</span> / 3.0 L</h3>
+              <h3><span id="waterOunces">0</span> / <span id="waterGoalDisplay">100</span> oz</h3>
+            </div>
+            <div>
+              <label for="waterGoalOz" class="small-label">Set your daily water goal once</label>
+              <div class="start-row">
+                <input id="waterGoalOz" type="number" inputmode="numeric" min="1" step="1" placeholder="100" />
+                <button class="primary-btn" id="saveWaterGoal">Save Goal</button>
+              </div>
+              <p class="hint">Your water goal is saved on this device and remembered when you return.</p>
             </div>
             <div class="water-buttons">
-              <button class="secondary-btn" data-water="250">+250 ml</button>
-              <button class="secondary-btn" data-water="500">+500 ml</button>
-              <button class="secondary-btn" data-water="750">+750 ml</button>
+              <button class="secondary-btn" data-water-oz="8">+8 oz</button>
+              <button class="secondary-btn" data-water-oz="16">+16 oz</button>
+              <button class="secondary-btn" data-water-oz="24">+24 oz</button>
               <button class="ghost-btn" id="resetWater">Reset</button>
             </div>
             <div class="mini-meter"><div id="waterMeter"></div></div>
@@ -163,6 +171,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
-  <script src="script.js?v=4"></script>
+  <script src="script.js?v=5"></script>
 </body>
 </html>
