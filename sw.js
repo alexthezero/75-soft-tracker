@@ -1,12 +1,13 @@
-const CACHE_NAME = "soft75-tracker-v12";
+const CACHE_NAME = "soft75-tracker-v13";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css?v=11",
   "./script.js?v=6",
   "./pdf-weight.js?v=10",
-  "./manifest.webmanifest?v=11",
-  "./icon.svg?v=11"
+  "./custom-activity.js?v=13",
+  "./manifest.webmanifest?v=13",
+  "./icon.svg?v=13"
 ];
 
 self.addEventListener("install", event => {
@@ -30,7 +31,7 @@ self.addEventListener("fetch", event => {
 
   const request = event.request;
   const acceptsHtml = request.headers.get("accept")?.includes("text/html");
-  const isVersionedAsset = request.url.includes("?v=12") || request.url.includes("?v=11") || request.url.includes("?v=10") || request.url.includes("?v=9") || request.url.includes("?v=8") || request.url.includes("?v=7") || request.url.includes("?v=6");
+  const isVersionedAsset = request.url.includes("?v=13") || request.url.includes("?v=12") || request.url.includes("?v=11") || request.url.includes("?v=10") || request.url.includes("?v=9") || request.url.includes("?v=8") || request.url.includes("?v=7") || request.url.includes("?v=6");
 
   if (acceptsHtml || isVersionedAsset) {
     event.respondWith(
