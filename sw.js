@@ -1,11 +1,11 @@
-const CACHE_NAME = "soft75-tracker-v2";
+const CACHE_NAME = "soft75-tracker-v3";
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./styles.css",
-  "./script.js",
-  "./manifest.webmanifest",
-  "./icon.svg"
+  "./styles.css?v=3",
+  "./script.js?v=3",
+  "./manifest.webmanifest?v=3",
+  "./icon.svg?v=3"
 ];
 
 self.addEventListener("install", event => {
@@ -27,7 +27,24 @@ self.addEventListener("activate", event => {
 self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
 
+  const request = event.request;
+  const acceptsHtml = request.headers.get("accept")?.includes("text/html");
+  const isVersionedAsset = request.url.includes("?v=3");
+
+  if (acceptsHtml || isVersionedAsset) {
+    event.respondWith(
+      fetch(request)
+        .then(response => {
+          const copy = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
+          return response;
+        })
+        .catch(() => caches.match(request).then(cached => cached || caches.match("./index.html")))
+    );
+    return;
+  }
+
   event.respondWith(
-    caches.match(event.request).then(cached => cached || fetch(event.request))
+    caches.match(request).then(cached => cached || fetch(request))
   );
 });
