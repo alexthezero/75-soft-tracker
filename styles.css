@@ -1,9 +1,9 @@
 :root {
   --bg: #f4f1e8;
-  --card: rgba(255, 255, 255, 0.9);
+  --card: rgba(255, 255, 255, 0.92);
   --card-solid: #ffffff;
   --text: #1f221c;
-  --muted: #707265;
+  --muted: #6d7065;
   --line: #ded7c9;
   --accent: #6f8065;
   --accent-dark: #42583c;
@@ -11,7 +11,7 @@
   --gold: #c58a3a;
   --danger: #b84a43;
   --danger-soft: #f8e3e0;
-  --shadow: 0 18px 55px rgba(36, 31, 22, 0.1);
+  --shadow: 0 14px 38px rgba(36, 31, 22, 0.09);
   --radius: 24px;
 }
 
@@ -21,6 +21,7 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -29,8 +30,8 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   color: var(--text);
   background:
-    radial-gradient(circle at top left, rgba(111, 128, 101, 0.25), transparent 32rem),
-    radial-gradient(circle at 85% 8%, rgba(197, 138, 58, 0.14), transparent 28rem),
+    radial-gradient(circle at top left, rgba(111, 128, 101, 0.22), transparent 28rem),
+    radial-gradient(circle at 85% 8%, rgba(197, 138, 58, 0.12), transparent 26rem),
     linear-gradient(180deg, #fbf8f1 0%, var(--bg) 62%, #efe8da 100%);
 }
 
@@ -44,6 +45,7 @@ textarea {
 button {
   border: 0;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 button:active {
@@ -53,7 +55,7 @@ button:active {
 .shell {
   width: min(1180px, 100%);
   margin: 0 auto;
-  padding: max(18px, env(safe-area-inset-top)) 16px 44px;
+  padding: max(14px, env(safe-area-inset-top)) 14px 44px;
 }
 
 .topbar {
@@ -61,16 +63,16 @@ button:active {
   justify-content: space-between;
   align-items: flex-start;
   gap: 16px;
-  padding: 16px 4px 20px;
+  padding: 10px 4px 18px;
 }
 
 .eyebrow,
 .small-label {
-  margin: 0 0 6px;
+  margin: 0 0 5px;
   color: var(--accent-dark);
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
 }
 
@@ -83,14 +85,14 @@ p {
 
 h1 {
   margin-bottom: 8px;
-  font-size: clamp(2.45rem, 9vw, 5.4rem);
-  line-height: 0.92;
+  font-size: clamp(2.25rem, 8vw, 5.1rem);
+  line-height: 0.94;
   letter-spacing: -0.07em;
 }
 
 h2 {
   margin-bottom: 0;
-  font-size: clamp(1.35rem, 3.5vw, 2rem);
+  font-size: clamp(1.28rem, 3.3vw, 1.95rem);
   letter-spacing: -0.035em;
 }
 
@@ -103,7 +105,7 @@ h3 {
   max-width: 720px;
   margin-bottom: 0;
   color: var(--muted);
-  line-height: 1.5;
+  line-height: 1.42;
 }
 
 .card {
@@ -112,15 +114,15 @@ h3 {
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   backdrop-filter: blur(18px);
-  padding: 20px;
+  padding: 18px;
 }
 
 .hero-grid,
 .content-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.75fr);
-  gap: 16px;
-  margin-bottom: 16px;
+  gap: 14px;
+  margin-bottom: 14px;
 }
 
 .lower-grid {
@@ -131,34 +133,34 @@ h3 {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 210px;
+  min-height: 188px;
 }
 
 .date-controls {
   display: grid;
   grid-template-columns: auto 1fr auto;
-  gap: 14px;
+  gap: 13px;
   align-items: center;
 }
 
 .date-controls h2 {
-  font-size: clamp(2rem, 6vw, 4rem);
+  font-size: clamp(1.9rem, 5.6vw, 3.7rem);
 }
 
 .circle-btn {
-  width: 46px;
-  height: 46px;
+  width: 44px;
+  height: 44px;
   border-radius: 999px;
   color: var(--accent-dark);
   background: var(--accent-soft);
-  font-size: 2rem;
+  font-size: 1.85rem;
   line-height: 1;
 }
 
 .meter-wrap,
 .mini-meter {
   width: 100%;
-  height: 18px;
+  height: 16px;
   overflow: hidden;
   border-radius: 999px;
   background: #e7dfd1;
@@ -178,32 +180,47 @@ h3 {
   justify-content: space-between;
   gap: 12px;
   color: var(--muted);
-  font-weight: 800;
+  font-weight: 900;
+}
+
+.start-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .start-card label,
 .activity-card label {
   display: block;
   margin-bottom: 8px;
-  font-weight: 800;
+  font-weight: 900;
 }
 
 .start-row {
   display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 9px;
+  align-items: stretch;
 }
 
 input,
 select,
 textarea {
   width: 100%;
+  min-width: 0;
   border: 1px solid var(--line);
   border-radius: 16px;
   outline: none;
   background: var(--card-solid);
   color: var(--text);
-  padding: 13px 14px;
+  padding: 12px 14px;
+}
+
+input[type="date"] {
+  min-height: 44px;
+  appearance: none;
+  -webkit-appearance: none;
+  text-align: left;
 }
 
 input:focus,
@@ -214,16 +231,16 @@ textarea:focus {
 }
 
 textarea {
-  min-height: 190px;
+  min-height: 170px;
   resize: vertical;
   line-height: 1.45;
 }
 
 .hint {
-  margin: 12px 0 0;
+  margin: 10px 0 0;
   color: var(--muted);
-  font-size: 0.92rem;
-  line-height: 1.45;
+  font-size: 0.9rem;
+  line-height: 1.4;
 }
 
 .primary-btn,
@@ -233,7 +250,7 @@ textarea {
   min-height: 44px;
   border-radius: 999px;
   padding: 10px 15px;
-  font-weight: 900;
+  font-weight: 950;
   transition: transform 150ms ease, opacity 150ms ease, background 150ms ease;
 }
 
@@ -270,27 +287,30 @@ textarea {
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: 10px;
+  margin-bottom: 14px;
 }
 
 .stat-card {
-  padding: 16px;
+  padding: 14px;
   border: 1px solid rgba(222, 215, 201, 0.86);
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.74);
   text-align: center;
 }
 
 .stat-card strong {
   display: block;
-  font-size: clamp(1.7rem, 5vw, 2.4rem);
+  font-size: clamp(1.6rem, 4.7vw, 2.25rem);
+  line-height: 1;
   letter-spacing: -0.05em;
 }
 
 .stat-card span {
+  display: block;
+  margin-top: 5px;
   color: var(--muted);
-  font-weight: 750;
+  font-weight: 800;
 }
 
 .section-heading {
@@ -298,7 +318,7 @@ textarea {
   justify-content: space-between;
   gap: 12px;
   align-items: flex-start;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .section-heading.stacked {
@@ -307,23 +327,23 @@ textarea {
 
 .checklist {
   display: grid;
-  gap: 11px;
+  gap: 10px;
 }
 
 .task {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 12px;
+  gap: 11px;
   align-items: start;
-  padding: 14px;
+  padding: 13px;
   border: 1px solid var(--line);
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.66);
 }
 
 .task input {
-  width: 25px;
-  height: 25px;
+  width: 24px;
+  height: 24px;
   margin-top: 2px;
   accent-color: var(--accent);
 }
@@ -335,8 +355,8 @@ textarea {
 
 .task span {
   color: var(--muted);
-  line-height: 1.38;
-  font-size: 0.94rem;
+  line-height: 1.35;
+  font-size: 0.93rem;
 }
 
 .task.done {
@@ -347,8 +367,8 @@ textarea {
 .water-panel {
   display: grid;
   gap: 12px;
-  margin-top: 14px;
-  padding: 16px;
+  margin-top: 13px;
+  padding: 14px;
   border-radius: 20px;
   background: #f9f6ef;
   border: 1px solid var(--line);
@@ -356,14 +376,18 @@ textarea {
 
 .water-panel h3 {
   margin: 0;
-  font-size: 1.6rem;
+  font-size: 1.5rem;
 }
 
 .water-buttons,
 .button-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 9px;
+  gap: 8px;
+}
+
+.water-buttons button {
+  flex: 1 1 auto;
 }
 
 .button-row.compact {
@@ -371,8 +395,8 @@ textarea {
 }
 
 .activity-result {
-  margin-top: 14px;
-  padding: 16px;
+  margin-top: 13px;
+  padding: 14px;
   border: 1px solid var(--line);
   border-radius: 20px;
   background: #f9f6ef;
@@ -386,19 +410,19 @@ textarea {
   color: var(--accent-dark);
   background: var(--accent-soft);
   font-size: 0.82rem;
-  font-weight: 900;
+  font-weight: 950;
 }
 
 .activity-result p:last-of-type {
   color: var(--muted);
-  line-height: 1.45;
+  line-height: 1.42;
 }
 
 .activity-result ul {
   margin: 12px 0 0;
   padding-left: 20px;
   color: var(--text);
-  line-height: 1.45;
+  line-height: 1.42;
 }
 
 .week-list {
@@ -408,9 +432,9 @@ textarea {
 
 .week-item {
   display: grid;
-  grid-template-columns: 88px 1fr;
+  grid-template-columns: 82px 1fr;
   gap: 12px;
-  padding: 13px;
+  padding: 12px;
   border-radius: 18px;
   border: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.66);
@@ -429,8 +453,8 @@ textarea {
 .week-item p {
   margin: 4px 0 0;
   color: var(--muted);
-  line-height: 1.38;
-  font-size: 0.94rem;
+  line-height: 1.36;
+  font-size: 0.93rem;
 }
 
 .history-card {
@@ -452,7 +476,7 @@ textarea {
   background: #f9f6ef;
   border: 1px solid var(--line);
   font-size: 0.8rem;
-  font-weight: 900;
+  font-weight: 950;
 }
 
 .day-dot.complete {
@@ -483,7 +507,7 @@ textarea {
   color: #fff;
   background: rgba(31, 34, 28, 0.92);
   box-shadow: var(--shadow);
-  font-weight: 800;
+  font-weight: 900;
   text-align: center;
   transition: transform 220ms ease;
 }
@@ -526,11 +550,100 @@ textarea {
   .shell {
     padding-left: 12px;
     padding-right: 12px;
+    padding-bottom: 34px;
+  }
+
+  .topbar {
+    padding: 4px 2px 12px;
+  }
+
+  .eyebrow,
+  .small-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.11em;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 12vw, 3.05rem);
+    margin-bottom: 6px;
+  }
+
+  .subtitle {
+    font-size: 0.98rem;
+    line-height: 1.34;
   }
 
   .card {
-    padding: 16px;
+    padding: 15px;
     border-radius: 22px;
+  }
+
+  .hero-grid,
+  .content-grid,
+  .lower-grid {
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .hero-card {
+    min-height: 168px;
+  }
+
+  .date-controls {
+    grid-template-columns: 38px 1fr 38px;
+    gap: 10px;
+  }
+
+  .date-controls h2 {
+    font-size: clamp(1.85rem, 9.8vw, 2.7rem);
+  }
+
+  .circle-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 1.65rem;
+  }
+
+  .meter-wrap,
+  .mini-meter {
+    height: 14px;
+  }
+
+  .hero-footer {
+    font-size: 0.9rem;
+  }
+
+  .start-card {
+    padding-top: 13px;
+    padding-bottom: 13px;
+  }
+
+  .start-card label {
+    margin-bottom: 7px;
+    font-size: 0.94rem;
+  }
+
+  .start-row {
+    grid-template-columns: minmax(0, 1fr) 92px;
+    gap: 8px;
+  }
+
+  input[type="date"] {
+    min-height: 42px;
+    font-size: 0.95rem;
+    border-radius: 14px;
+    padding: 10px 12px;
+  }
+
+  .start-row .primary-btn {
+    min-height: 42px;
+    padding: 8px 10px;
+  }
+
+  .start-card .hint {
+    margin-top: 8px;
+    font-size: 0.78rem;
+    line-height: 1.3;
   }
 
   .stats-grid {
@@ -538,7 +651,56 @@ textarea {
   }
 
   .stat-card {
+    padding: 12px 10px;
+    border-radius: 18px;
+  }
+
+  .stat-card strong {
+    font-size: 1.75rem;
+  }
+
+  .stat-card span {
+    font-size: 0.84rem;
+  }
+
+  .section-heading {
+    margin-bottom: 12px;
+  }
+
+  .checklist-card .section-heading {
+    gap: 10px;
+  }
+
+  .checklist-card .secondary-btn {
+    width: 100%;
+  }
+
+  .task {
     padding: 12px;
+    gap: 10px;
+  }
+
+  .task input {
+    width: 22px;
+    height: 22px;
+  }
+
+  .task span {
+    font-size: 0.9rem;
+  }
+
+  .water-panel,
+  .activity-result {
+    padding: 13px;
+  }
+
+  .water-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  textarea {
+    min-height: 150px;
   }
 
   .history-grid {
@@ -551,9 +713,5 @@ textarea {
 
   .button-row.compact {
     justify-content: flex-start;
-  }
-
-  .start-row {
-    grid-template-columns: 1fr;
   }
 }
