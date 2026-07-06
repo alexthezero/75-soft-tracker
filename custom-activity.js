@@ -18,6 +18,37 @@
     return typeof activityId === "string" && activityId.startsWith(CUSTOM_PREFIX);
   }
 
+  function isPendingCustomActivity(activityId) {
+    return activityId === "custom";
+  }
+
+  function ensureCustomStyles() {
+    if (document.getElementById("customActivityStyles")) return;
+
+    const style = document.createElement("style");
+    style.id = "customActivityStyles";
+    style.textContent = `
+      .custom-activity-card {
+        margin-top: 12px;
+        padding: 14px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.58);
+        border: 1px solid rgba(94, 83, 64, 0.1);
+        animation: customActivityIn 160ms ease-out;
+      }
+
+      .custom-activity-card[hidden] {
+        display: none !important;
+      }
+
+      @keyframes customActivityIn {
+        from { opacity: 0; transform: translateY(-4px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
   function getCustomEls() {
     return {
       select: document.getElementById("activitySelect"),
@@ -91,19 +122,23 @@
     if (!select) return;
 
     let customName = "";
+    let pendingCustom = false;
+
     try {
       const state = typeof loadState === "function" ? loadState() : null;
       const entry = state?.entries?.[selectedDate];
       if (entry?.activityId && isCustomActivity(entry.activityId)) {
         customName = entry.customActivity || decodeCustomActivity(entry.activityId);
       }
+      pendingCustom = entry?.activityId === "custom";
     } catch {
       customName = "";
+      pendingCustom = false;
     }
 
-    if (customName) {
+    if (customName || pendingCustom) {
       select.value = "custom";
-      if (input) input.value = customName;
+      if (input && customName) input.value = customName;
       if (card) card.hidden = false;
     } else {
       if (card && select.value !== "custom") card.hidden = true;
@@ -126,6 +161,15 @@
         return;
       }
 
+      if (isPendingCustomActivity(activityId)) {
+        const { title, type, desc, steps } = getCustomEls();
+        if (type) type.textContent = "Custom";
+        if (title) title.textContent = "Custom activity";
+        if (desc) desc.textContent = "Type your activity below, then save it to this day.";
+        if (steps) steps.innerHTML = "<li>Enter any activity that counts as your 45-minute movement.</li><li>Tap Save Activity when done.</li>";
+        return;
+      }
+
       originalRenderActivity(activityId);
     };
 
@@ -138,6 +182,7 @@
     const originalGetActivityTitle = getActivityTitle;
     getActivityTitle = function (activityId) {
       if (isCustomActivity(activityId)) return decodeCustomActivity(activityId) || "Custom activity";
+      if (isPendingCustomActivity(activityId)) return "Custom activity";
       return originalGetActivityTitle(activityId);
     };
 
@@ -150,6 +195,7 @@
     const originalRender = render;
     render = function () {
       originalRender();
+      ensureCustomStyles();
       ensureCustomOption();
       ensureCustomCard();
       syncCustomUiForDay();
@@ -160,6 +206,7 @@
   }
 
   function bootCustomActivity() {
+    ensureCustomStyles();
     ensureCustomOption();
     ensureCustomCard();
     installRenderActivityOverride();
