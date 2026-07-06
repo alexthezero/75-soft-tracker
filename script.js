@@ -1,5 +1,6 @@
 const TOTAL_DAYS = 75;
-const WATER_GOAL_ML = 3000;
+const DEFAULT_WATER_GOAL_OZ = 100;
+const ML_TO_OZ = 0.033814;
 const STORAGE_KEY = "soft75Tracker.v1";
 
 const tasks = [
@@ -10,8 +11,8 @@ const tasks = [
   },
   {
     id: "water",
-    title: "Drink 3 liters of water",
-    desc: "Use the quick-add buttons below, or check this off manually once your water goal is done."
+    title: "Hit your water goal",
+    desc: "Set your daily ounces goal once, then use the quick-add buttons below to track your water."
   },
   {
     id: "reading",
@@ -134,7 +135,10 @@ const els = {
   daysLeft: document.getElementById("daysLeft"),
   bestStreak: document.getElementById("bestStreak"),
   checklist: document.getElementById("checklist"),
-  waterLiters: document.getElementById("waterLiters"),
+  waterOunces: document.getElementById("waterOunces"),
+  waterGoalDisplay: document.getElementById("waterGoalDisplay"),
+  waterGoalOz: document.getElementById("waterGoalOz"),
+  saveWaterGoal: document.getElementById("saveWaterGoal"),
   waterMeter: document.getElementById("waterMeter"),
   resetWater: document.getElementById("resetWater"),
   completeAll: document.getElementById("completeAll"),
@@ -196,13 +200,31 @@ function formatShortDate(value) {
   });
 }
 
+function normalizeWaterGoal(value) {
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric) || numeric <= 0) return DEFAULT_WATER_GOAL_OZ;
+  return Math.round(numeric);
+}
+
+function getWaterGoalOz(state) {
+  return normalizeWaterGoal(state?.waterGoalOz);
+}
+
+function getEntryWaterOz(entry) {
+  if (!entry) return 0;
+  if (Number.isFinite(entry.waterOz)) return Math.max(0, Math.round(entry.waterOz));
+  if (Number.isFinite(entry.waterMl)) return Math.max(0, Math.round(entry.waterMl * ML_TO_OZ));
+  return 0;
+}
+
 function loadState() {
-  const fallback = { startDate: todayString(), entries: {} };
+  const fallback = { startDate: todayString(), waterGoalOz: DEFAULT_WATER_GOAL_OZ, entries: {} };
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
     if (!saved || typeof saved !== "object") return fallback;
     return {
       startDate: saved.startDate || todayString(),
+      waterGoalOz: normalizeWaterGoal(saved.waterGoalOz),
       entries: saved.entries || {}
     };
   } catch {
@@ -211,6 +233,7 @@ function loadState() {
 }
 
 function saveState(state) {
+  state.waterGoalOz = getWaterGoalOz(state);
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
@@ -218,13 +241,21 @@ function getEntry(state, date = selectedDate) {
   if (!state.entries[date]) {
     state.entries[date] = {
       checks: {},
-      waterMl: 0,
+      waterOz: 0,
       activityId: "",
       notes: ""
     };
   }
   if (!state.entries[date].checks) state.entries[date].checks = {};
-  if (!Number.isFinite(state.entries[date].waterMl)) state.entries[date].waterMl = 0;
+  if (!Number.isFinite(state.entries[date].waterOz)) {
+    state.entries[date].waterOz = getEntryWaterOz(state.entries[date]);
+  }
+  state.entries[date].waterOz = Math.max(0, Math.round(state.entries[date].waterOz));
+
+  if (state.entries[date].waterOz >= getWaterGoalOz(state)) {
+    state.entries[date].checks.water = true;
+  }
+
   return state.entries[date];
 }
 
@@ -405,10 +436,13 @@ function renderStats(state) {
 function render() {
   const state = loadState();
   const entry = getEntry(state);
+  const waterGoalOz = getWaterGoalOz(state);
   const currentDay = clampDayNumber(dayNumber(selectedDate, state.startDate));
   const rawDay = dayNumber(selectedDate, state.startDate);
 
   els.startDate.value = state.startDate;
+  els.waterGoalOz.value = waterGoalOz;
+  els.waterGoalDisplay.textContent = waterGoalOz;
   els.selectedDateLabel.textContent = formatDate(selectedDate);
   els.dayHeading.textContent = `Day ${currentDay} of ${TOTAL_DAYS}`;
 
@@ -425,14 +459,15 @@ function render() {
   els.dailyPercent.textContent = `${percent}% complete`;
   els.dailyStatus.textContent = percent === 100 ? "Day complete" : `${tasks.length - completedTaskCount(entry)} left`;
 
-  els.waterLiters.textContent = (entry.waterMl / 1000).toFixed(1);
-  els.waterMeter.style.width = `${Math.min((entry.waterMl / WATER_GOAL_ML) * 100, 100)}%`;
+  els.waterOunces.textContent = entry.waterOz;
+  els.waterMeter.style.width = `${Math.min((entry.waterOz / waterGoalOz) * 100, 100)}%`;
 
   els.activitySelect.value = entry.activityId || "";
   renderActivity(entry.activityId);
 
   els.notes.value = entry.notes || "";
 
+  saveState(state);
   renderStats(state);
   renderHistory(state);
   buildWeeklyPlan();
@@ -487,6 +522,7 @@ function exportTrackerPdf() {
 
   const state = loadState();
   const entry = getEntry(state, selectedDate);
+  const waterGoalOz = getWaterGoalOz(state);
   const dates = challengeDateList(state.startDate);
   const completed = dates.filter(date => isComplete(state.entries[date])).length;
   const partial = dates.filter(date => isPartial(state.entries[date])).length;
@@ -578,7 +614,7 @@ function exportTrackerPdf() {
   doc.setTextColor(31, 34, 28);
   doc.text(`Status: ${getStatusLabel(entry)}`, 56, 480);
   doc.text(`Daily: ${selectedPercent}%`, 190, 480);
-  doc.text(`Water: ${(entry.waterMl / 1000).toFixed(1)} / 3.0 L`, 300, 480);
+  doc.text(`Water: ${entry.waterOz} / ${waterGoalOz} oz`, 300, 480);
 
   let taskY = 512;
   tasks.forEach(task => {
@@ -635,7 +671,7 @@ function exportTrackerPdf() {
       `Day ${index + 1}`,
       formatShortDate(date),
       getStatusLabel(dayEntry),
-      dayEntry ? `${((dayEntry.waterMl || 0) / 1000).toFixed(1)} L` : "0.0 L",
+      `${getEntryWaterOz(dayEntry)} oz`,
       getActivityTitle(dayEntry?.activityId),
       truncateText(dayEntry?.notes || "", 44)
     ];
@@ -701,6 +737,22 @@ function attachEvents() {
     showToast("Start date saved");
   });
 
+  els.saveWaterGoal.addEventListener("click", () => {
+    const newGoal = Number(els.waterGoalOz.value);
+    if (!Number.isFinite(newGoal) || newGoal <= 0) {
+      showToast("Enter a valid water goal in ounces.");
+      return;
+    }
+
+    const state = loadState();
+    state.waterGoalOz = Math.round(newGoal);
+    const entry = getEntry(state);
+    entry.checks.water = entry.waterOz >= state.waterGoalOz;
+    saveState(state);
+    render();
+    showToast("Water goal saved");
+  });
+
   els.prevDay.addEventListener("click", () => {
     selectedDate = addDays(selectedDate, -1);
     render();
@@ -724,29 +776,30 @@ function attachEvents() {
     }, true);
   });
 
-  document.querySelectorAll("[data-water]").forEach(button => {
+  document.querySelectorAll("[data-water-oz]").forEach(button => {
     button.addEventListener("click", () => {
-      const amount = Number(button.dataset.water);
-      updateEntry(entry => {
-        entry.waterMl = Math.max(0, entry.waterMl + amount);
-        if (entry.waterMl >= WATER_GOAL_ML) entry.checks.water = true;
+      const amount = Number(button.dataset.waterOz);
+      updateEntry((entry, state) => {
+        entry.waterOz = Math.max(0, entry.waterOz + amount);
+        if (entry.waterOz >= getWaterGoalOz(state)) entry.checks.water = true;
       }, true);
     });
   });
 
   els.resetWater.addEventListener("click", () => {
     updateEntry(entry => {
+      entry.waterOz = 0;
       entry.waterMl = 0;
       entry.checks.water = false;
     });
   });
 
   els.completeAll.addEventListener("click", () => {
-    updateEntry(entry => {
+    updateEntry((entry, state) => {
       tasks.forEach(task => {
         entry.checks[task.id] = true;
       });
-      entry.waterMl = Math.max(entry.waterMl, WATER_GOAL_ML);
+      entry.waterOz = Math.max(entry.waterOz, getWaterGoalOz(state));
     });
   });
 
