@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="75 Soft Tracker icon">
+  <rect width="512" height="512" rx="118" fill="#6f8065"/>
+  <circle cx="256" cy="256" r="174" fill="#f4f1e8" opacity="0.96"/>
+  <path d="M170 282l54 54 124-150" fill="none" stroke="#42583c" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="256" y="424" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="76" fill="#42583c">75</text>
+</svg>
