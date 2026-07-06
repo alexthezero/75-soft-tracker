@@ -7,9 +7,9 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="75 Soft" />
   <title>75 Soft Tracker</title>
-  <link rel="manifest" href="manifest.webmanifest?v=3" />
-  <link rel="icon" href="icon.svg?v=3" type="image/svg+xml" />
-  <link rel="stylesheet" href="styles.css?v=3" />
+  <link rel="manifest" href="manifest.webmanifest?v=4" />
+  <link rel="icon" href="icon.svg?v=4" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css?v=4" />
 </head>
 <body>
   <div class="shell">
@@ -149,7 +149,7 @@
             <h2>Challenge history</h2>
           </div>
           <div class="button-row compact">
-            <button class="ghost-btn" id="exportData">Export</button>
+            <button class="ghost-btn" id="exportData">Export PDF</button>
             <button class="danger-btn" id="resetAll">Reset all</button>
           </div>
         </div>
@@ -161,6 +161,8 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="script.js?v=3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+  <script src="script.js?v=4"></script>
 </body>
 </html>
