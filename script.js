@@ -12,7 +12,7 @@ const tasks = [
   {
     id: "water",
     title: "Hit your water goal",
-    desc: "Set your daily ounces goal once, then use the quick-add buttons below to track your water."
+    desc: "Set your daily ounces goal once, then enter how many ounces you drank each day."
   },
   {
     id: "reading",
@@ -139,8 +139,9 @@ const els = {
   waterGoalDisplay: document.getElementById("waterGoalDisplay"),
   waterGoalOz: document.getElementById("waterGoalOz"),
   saveWaterGoal: document.getElementById("saveWaterGoal"),
+  waterConsumedOz: document.getElementById("waterConsumedOz"),
+  saveWaterConsumed: document.getElementById("saveWaterConsumed"),
   waterMeter: document.getElementById("waterMeter"),
-  resetWater: document.getElementById("resetWater"),
   completeAll: document.getElementById("completeAll"),
   activitySelect: document.getElementById("activitySelect"),
   activityType: document.getElementById("activityType"),
@@ -206,6 +207,12 @@ function normalizeWaterGoal(value) {
   return Math.round(numeric);
 }
 
+function normalizeWaterConsumed(value) {
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric) || numeric < 0) return 0;
+  return Math.round(numeric);
+}
+
 function getWaterGoalOz(state) {
   return normalizeWaterGoal(state?.waterGoalOz);
 }
@@ -215,6 +222,10 @@ function getEntryWaterOz(entry) {
   if (Number.isFinite(entry.waterOz)) return Math.max(0, Math.round(entry.waterOz));
   if (Number.isFinite(entry.waterMl)) return Math.max(0, Math.round(entry.waterMl * ML_TO_OZ));
   return 0;
+}
+
+function updateWaterCheck(entry, state) {
+  entry.checks.water = getEntryWaterOz(entry) >= getWaterGoalOz(state);
 }
 
 function loadState() {
@@ -250,12 +261,8 @@ function getEntry(state, date = selectedDate) {
   if (!Number.isFinite(state.entries[date].waterOz)) {
     state.entries[date].waterOz = getEntryWaterOz(state.entries[date]);
   }
-  state.entries[date].waterOz = Math.max(0, Math.round(state.entries[date].waterOz));
-
-  if (state.entries[date].waterOz >= getWaterGoalOz(state)) {
-    state.entries[date].checks.water = true;
-  }
-
+  state.entries[date].waterOz = normalizeWaterConsumed(state.entries[date].waterOz);
+  updateWaterCheck(state.entries[date], state);
   return state.entries[date];
 }
 
@@ -442,6 +449,7 @@ function render() {
 
   els.startDate.value = state.startDate;
   els.waterGoalOz.value = waterGoalOz;
+  els.waterConsumedOz.value = entry.waterOz;
   els.waterGoalDisplay.textContent = waterGoalOz;
   els.selectedDateLabel.textContent = formatDate(selectedDate);
   els.dayHeading.textContent = `Day ${currentDay} of ${TOTAL_DAYS}`;
@@ -747,10 +755,24 @@ function attachEvents() {
     const state = loadState();
     state.waterGoalOz = Math.round(newGoal);
     const entry = getEntry(state);
-    entry.checks.water = entry.waterOz >= state.waterGoalOz;
+    updateWaterCheck(entry, state);
     saveState(state);
     render();
     showToast("Water goal saved");
+  });
+
+  els.saveWaterConsumed.addEventListener("click", () => {
+    const consumed = Number(els.waterConsumedOz.value);
+    if (!Number.isFinite(consumed) || consumed < 0) {
+      showToast("Enter valid ounces consumed.");
+      return;
+    }
+
+    updateEntry((entry, state) => {
+      entry.waterOz = normalizeWaterConsumed(consumed);
+      entry.waterMl = 0;
+      updateWaterCheck(entry, state);
+    });
   });
 
   els.prevDay.addEventListener("click", () => {
@@ -774,24 +796,6 @@ function attachEvents() {
     updateEntry(entry => {
       entry.checks[event.target.dataset.task] = event.target.checked;
     }, true);
-  });
-
-  document.querySelectorAll("[data-water-oz]").forEach(button => {
-    button.addEventListener("click", () => {
-      const amount = Number(button.dataset.waterOz);
-      updateEntry((entry, state) => {
-        entry.waterOz = Math.max(0, entry.waterOz + amount);
-        if (entry.waterOz >= getWaterGoalOz(state)) entry.checks.water = true;
-      }, true);
-    });
-  });
-
-  els.resetWater.addEventListener("click", () => {
-    updateEntry(entry => {
-      entry.waterOz = 0;
-      entry.waterMl = 0;
-      entry.checks.water = false;
-    });
   });
 
   els.completeAll.addEventListener("click", () => {
