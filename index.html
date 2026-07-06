@@ -7,9 +7,9 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="75 Soft" />
   <title>75 Soft Tracker</title>
-  <link rel="manifest" href="manifest.webmanifest?v=8" />
-  <link rel="icon" href="icon.svg?v=8" type="image/svg+xml" />
-  <link rel="stylesheet" href="styles.css?v=7" />
+  <link rel="manifest" href="manifest.webmanifest?v=11" />
+  <link rel="icon" href="icon.svg?v=11" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css?v=11" />
 </head>
 <body>
   <div class="shell">
@@ -19,7 +19,12 @@
         <h1>75 Soft Tracker</h1>
         <p class="subtitle">Daily movement, water, reading, nutrition, and consistency — built for home, walking, and real life.</p>
       </div>
-      <button class="ghost-btn" id="installBtn" hidden>Install App</button>
+      <div class="button-row compact" style="justify-content:flex-end; min-width: fit-content;">
+        <button class="ghost-btn" id="historyToggle" type="button" aria-expanded="false" aria-controls="historyDrawer">History</button>
+        <button class="ghost-btn" id="exportData" type="button">Export PDF</button>
+        <button class="danger-btn" id="resetAll" type="button">Reset all</button>
+        <button class="ghost-btn" id="installBtn" hidden>Install App</button>
+      </div>
     </header>
 
     <main>
@@ -70,6 +75,17 @@
           <strong id="bestStreak">0</strong>
           <span>best streak</span>
         </div>
+      </section>
+
+      <section class="card history-card" id="historyDrawer" hidden>
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">75-day view</p>
+            <h2>Challenge history</h2>
+          </div>
+        </div>
+        <div class="history-grid" id="historyGrid" aria-label="75 day challenge history"></div>
+        <p class="hint">Tap any day to review or edit it. Green means every required task is complete.</p>
       </section>
 
       <section class="content-grid">
@@ -140,7 +156,7 @@
             <input id="weightLb" type="number" inputmode="decimal" min="0" step="0.1" placeholder="Example: 210.4" />
             <button class="primary-btn" id="saveWeight">Save Weight</button>
           </div>
-          <p class="hint">Saved for the selected day. Use the day arrows or history grid to log weight on other days.</p>
+          <p class="hint">Saved for the selected day. Use the day arrows, top History button, or PDF export to review progress.</p>
           <p class="hint"><strong id="weightStatus">No weight logged for this day yet.</strong></p>
           <div id="weekList" hidden></div>
         </article>
@@ -158,21 +174,6 @@
           </div>
         </article>
       </section>
-
-      <section class="card history-card">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">75-day view</p>
-            <h2>Challenge history</h2>
-          </div>
-          <div class="button-row compact">
-            <button class="ghost-btn" id="exportData">Export PDF</button>
-            <button class="danger-btn" id="resetAll">Reset all</button>
-          </div>
-        </div>
-        <div class="history-grid" id="historyGrid" aria-label="75 day challenge history"></div>
-        <p class="hint">Tap any day to review or edit it. Green means every required task is complete.</p>
-      </section>
     </main>
   </div>
 
@@ -181,7 +182,7 @@
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
   <script src="script.js?v=6"></script>
-  <script src="pdf-weight.js?v=8"></script>
+  <script src="pdf-weight.js?v=10"></script>
   <script>
     (function () {
       const WEIGHT_KEY = "soft75Weight.v1";
@@ -256,6 +257,36 @@
       }
 
       renderWeight();
+    })();
+  </script>
+  <script>
+    (function () {
+      const toggle = document.getElementById("historyToggle");
+      const drawer = document.getElementById("historyDrawer");
+      const grid = document.getElementById("historyGrid");
+
+      function setHistoryOpen(isOpen) {
+        if (!toggle || !drawer) return;
+        drawer.hidden = !isOpen;
+        toggle.setAttribute("aria-expanded", String(isOpen));
+        toggle.textContent = isOpen ? "Hide History" : "History";
+      }
+
+      if (toggle && drawer) {
+        toggle.addEventListener("click", () => {
+          const isOpen = drawer.hidden;
+          setHistoryOpen(isOpen);
+          if (isOpen) drawer.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        });
+      }
+
+      if (grid) {
+        grid.addEventListener("click", event => {
+          if (event.target.closest(".day-dot")) {
+            setTimeout(() => setHistoryOpen(false), 150);
+          }
+        });
+      }
     })();
   </script>
 </body>
