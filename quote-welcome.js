@@ -1,37 +1,25 @@
 (function () {
   const SEEN_KEY = "soft75DailyQuoteSeen.v1";
-  const AUTHOR = "75 Soft Tracker";
   const QUOTES = [
-    "Today does not need to be perfect. It just needs to be yours.",
-    "Small choices repeated long enough become a new life.",
-    "Show up gently. Show up honestly. Show up again tomorrow.",
-    "You are not starting over. You are building proof.",
-    "Progress counts even when it feels quiet.",
-    "The win is not intensity. The win is returning.",
-    "One checked box can change the tone of the whole day.",
-    "Keep the promise small enough to keep, then keep it.",
-    "Consistency is self-respect in motion.",
-    "Your future self is built by what you repeat today.",
-    "Do the next good thing. That is enough for right now.",
-    "You do not need more pressure. You need one steady step.",
-    "Health grows best where patience is allowed.",
-    "A soft challenge can still create strong results.",
-    "Choose progress you can live with.",
-    "The goal is not to punish your body. The goal is to care for it.",
-    "Start where you are, then make today count.",
-    "Your effort matters, even when nobody else sees it.",
-    "Every honest check-in is a step forward.",
-    "You are allowed to move slowly and still move well.",
-    "The habit is the victory before the result arrives.",
-    "Let today be simple, steady, and enough.",
-    "You are practicing the person you are becoming.",
-    "A better routine is built one ordinary day at a time.",
-    "Do not chase perfect. Choose consistent.",
-    "The quiet work is still working.",
-    "You can make today lighter by keeping one promise to yourself.",
-    "Momentum begins with a single completed step.",
-    "This is not about being extreme. This is about being faithful to yourself.",
-    "Keep going. The small stuff is not small when it compounds."
+    { text: "It always seems impossible until it's done.", author: "Nelson Mandela" },
+    { text: "Do what you can, with what you have, where you are.", author: "Theodore Roosevelt" },
+    { text: "If there is no struggle, there is no progress.", author: "Frederick Douglass" },
+    { text: "You must do the thing you think you cannot do.", author: "Eleanor Roosevelt" },
+    { text: "Well done is better than well said.", author: "Benjamin Franklin" },
+    { text: "Energy and persistence conquer all things.", author: "Benjamin Franklin" },
+    { text: "Nothing will work unless you do.", author: "Maya Angelou" },
+    { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+    { text: "Start where you are. Use what you have. Do what you can.", author: "Arthur Ashe" },
+    { text: "The best way out is always through.", author: "Robert Frost" },
+    { text: "I am not afraid of storms, for I am learning how to sail my ship.", author: "Louisa May Alcott" },
+    { text: "Difficulties strengthen the mind, as labor does the body.", author: "Seneca" },
+    { text: "No great thing is created suddenly.", author: "Epictetus" },
+    { text: "Begin, be bold, and venture to be wise.", author: "Horace" },
+    { text: "Action is eloquence.", author: "William Shakespeare" },
+    { text: "The most effective way to do it, is to do it.", author: "Amelia Earhart" },
+    { text: "With the new day comes new strength and new thoughts.", author: "Eleanor Roosevelt" },
+    { text: "Never bend your head. Always hold it high. Look the world straight in the eye.", author: "Helen Keller" },
+    { text: "Fortune favors the brave.", author: "Virgil" }
   ];
 
   function todayKey() {
@@ -75,6 +63,7 @@
   }
 
   function buildWelcome(dateKey) {
+    const dailyQuote = quoteForDate(dateKey);
     const overlay = document.createElement("div");
     overlay.className = "quote-welcome";
     overlay.setAttribute("role", "dialog");
@@ -83,10 +72,10 @@
 
     overlay.innerHTML = `
       <section class="quote-welcome-card">
-        <p class="quote-welcome-kicker">Today’s encouragement</p>
+        <p class="quote-welcome-kicker">Today's encouragement</p>
         <h2 class="quote-welcome-title" id="quoteWelcomeTitle">Welcome back</h2>
-        <p class="quote-welcome-quote">“${quoteForDate(dateKey)}”</p>
-        <p class="quote-welcome-author">— ${AUTHOR}</p>
+        <p class="quote-welcome-quote">"${dailyQuote.text}"</p>
+        <p class="quote-welcome-author">— ${dailyQuote.author}</p>
         <p class="quote-welcome-date">${readableDate()} • One steady day at a time.</p>
         <button class="quote-welcome-button" type="button">Continue to tracker</button>
         <p class="quote-welcome-small">A new quote will appear the first time you open the app each day.</p>
