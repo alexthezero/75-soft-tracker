@@ -40,6 +40,7 @@
     radial-gradient(circle at top left, rgba(238, 245, 232, 0.95), transparent 30%);
   box-shadow: 0 24px 70px rgba(72, 61, 42, 0.16);
   text-align: center;
+  transform: translateY(-3vh);
 }
 
 .quote-welcome-card::before {
@@ -100,6 +101,18 @@
   cursor: pointer;
 }
 
+.quote-welcome-button:focus {
+  outline: none;
+}
+
+.quote-welcome-button:focus-visible {
+  outline: 3px solid rgba(123, 146, 103, 0.36);
+  outline-offset: 4px;
+  box-shadow:
+    0 12px 24px rgba(79, 106, 68, 0.24),
+    0 0 0 7px rgba(238, 245, 232, 0.95);
+}
+
 .quote-welcome-button:active {
   transform: translateY(1px) scale(0.99);
 }
@@ -118,6 +131,7 @@
   .quote-welcome-card {
     padding: 28px 20px 22px;
     border-radius: 30px;
+    transform: translateY(-4vh);
   }
 
   .quote-welcome-quote {
