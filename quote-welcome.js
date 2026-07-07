@@ -99,7 +99,6 @@
     });
 
     document.body.appendChild(overlay);
-    setTimeout(() => button.focus({ preventScroll: true }), 80);
   }
 
   function boot() {
