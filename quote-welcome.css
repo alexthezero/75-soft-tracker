@@ -1,0 +1,126 @@
+.quote-welcome {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(circle at 16% 8%, rgba(214, 228, 200, 0.72), transparent 26rem),
+    radial-gradient(circle at 90% 0%, rgba(223, 237, 211, 0.82), transparent 24rem),
+    linear-gradient(180deg, #fcfaf6 0%, #f8f5ee 54%, #efe8dc 100%);
+}
+
+.quote-welcome[hidden] {
+  display: none !important;
+}
+
+.quote-welcome::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 16px 16px, rgba(126, 151, 106, 0.08) 1.2px, transparent 1.6px),
+    linear-gradient(rgba(255,255,255,0.36) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.24) 1px, transparent 1px);
+  background-size: 54px 54px, 46px 46px, 46px 46px;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,0.58), transparent 76%);
+}
+
+.quote-welcome-card {
+  position: relative;
+  width: min(560px, 100%);
+  overflow: hidden;
+  padding: 30px 24px 24px;
+  border: 1px solid rgba(102, 112, 88, 0.18);
+  border-radius: 34px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.84)),
+    radial-gradient(circle at top left, rgba(238, 245, 232, 0.95), transparent 30%);
+  box-shadow: 0 24px 70px rgba(72, 61, 42, 0.16);
+  text-align: center;
+}
+
+.quote-welcome-card::before {
+  content: "❦";
+  position: absolute;
+  top: 16px;
+  right: 22px;
+  color: rgba(126, 151, 106, 0.32);
+  font-size: 2.4rem;
+  line-height: 1;
+}
+
+.quote-welcome-kicker {
+  margin: 0 0 12px;
+  color: #4f6a44;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.quote-welcome-title {
+  margin: 0 0 8px;
+  font-family: "Parisienne", cursive;
+  color: #4f6a44;
+  font-size: clamp(2.25rem, 10vw, 3.6rem);
+  line-height: 1;
+}
+
+.quote-welcome-quote {
+  margin: 20px auto 18px;
+  max-width: 440px;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  color: #30452c;
+  font-size: clamp(1.55rem, 7vw, 2.35rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+.quote-welcome-date {
+  margin: 0 0 22px;
+  color: #6d7467;
+  font-size: 0.94rem;
+  line-height: 1.4;
+}
+
+.quote-welcome-button {
+  width: 100%;
+  min-height: 52px;
+  border: 0;
+  border-radius: 999px;
+  color: #ffffff;
+  background: linear-gradient(180deg, #86a16e 0%, #7b9267 100%);
+  box-shadow: 0 12px 24px rgba(79, 106, 68, 0.24);
+  font: inherit;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.quote-welcome-button:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+.quote-welcome-small {
+  margin: 14px 0 0;
+  color: #6d7467;
+  font-size: 0.84rem;
+}
+
+@media (max-width: 520px) {
+  .quote-welcome {
+    padding: 18px;
+  }
+
+  .quote-welcome-card {
+    padding: 28px 20px 22px;
+    border-radius: 30px;
+  }
+
+  .quote-welcome-quote {
+    margin-top: 18px;
+  }
+}
