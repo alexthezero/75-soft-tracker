@@ -1,5 +1,6 @@
 (function () {
   const SEEN_KEY = "soft75DailyQuoteSeen.v1";
+  const AUTHOR = "75 Soft Tracker";
   const QUOTES = [
     "Today does not need to be perfect. It just needs to be yours.",
     "Small choices repeated long enough become a new life.",
@@ -85,6 +86,7 @@
         <p class="quote-welcome-kicker">Today’s encouragement</p>
         <h2 class="quote-welcome-title" id="quoteWelcomeTitle">Welcome back</h2>
         <p class="quote-welcome-quote">“${quoteForDate(dateKey)}”</p>
+        <p class="quote-welcome-author">— ${AUTHOR}</p>
         <p class="quote-welcome-date">${readableDate()} • One steady day at a time.</p>
         <button class="quote-welcome-button" type="button">Continue to tracker</button>
         <p class="quote-welcome-small">A new quote will appear the first time you open the app each day.</p>
