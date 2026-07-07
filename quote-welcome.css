@@ -71,7 +71,7 @@
 }
 
 .quote-welcome-quote {
-  margin: 20px auto 18px;
+  margin: 20px auto 8px;
   max-width: 440px;
   font-family: "Cormorant Garamond", Georgia, serif;
   color: #30452c;
@@ -79,6 +79,14 @@
   font-weight: 700;
   line-height: 1.08;
   letter-spacing: -0.035em;
+}
+
+.quote-welcome-author {
+  margin: 0 0 18px;
+  color: #4f6a44;
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
 }
 
 .quote-welcome-date {
