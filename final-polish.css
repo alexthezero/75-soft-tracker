@@ -37,6 +37,12 @@
   opacity: 0.96;
 }
 
+.tagline-heart {
+  display: inline-block;
+  margin-left: 0.18em;
+  white-space: nowrap;
+}
+
 .subtitle {
   max-width: 640px;
 }
@@ -175,7 +181,7 @@
   }
 
   .topbar {
-    padding: 8px 10px 16px;
+    padding: 6px 10px 14px;
   }
 
   .eyebrow,
@@ -185,29 +191,35 @@
   }
 
   .hero-title {
-    gap: 0 7px;
-    margin-bottom: 2px;
+    gap: 0 6px;
+    margin-bottom: 0;
   }
 
   .title-num,
   .title-main {
-    font-size: clamp(2.75rem, 11.8vw, 3.55rem);
-    letter-spacing: -0.075em;
+    font-size: clamp(2.62rem, 11.2vw, 3.36rem);
+    letter-spacing: -0.078em;
   }
 
   .title-script {
-    font-size: clamp(3rem, 12.4vw, 3.85rem);
-    letter-spacing: -0.015em;
+    font-size: clamp(2.82rem, 11.6vw, 3.62rem);
+    letter-spacing: -0.018em;
   }
 
   .hero-tagline {
-    margin-bottom: 10px;
-    font-size: clamp(1.42rem, 7vw, 1.78rem);
+    margin-bottom: 8px;
+    max-width: 100%;
+    font-size: clamp(1.28rem, 6.25vw, 1.58rem);
+    line-height: 1.05;
+  }
+
+  .tagline-heart {
+    margin-left: 0.12em;
   }
 
   .subtitle {
-    font-size: 0.98rem;
-    line-height: 1.43;
+    font-size: 0.96rem;
+    line-height: 1.4;
   }
 
   .topbar .button-row {
@@ -310,11 +322,15 @@
 @media (max-width: 380px) {
   .title-num,
   .title-main {
-    font-size: 2.55rem;
+    font-size: 2.45rem;
   }
 
   .title-script {
-    font-size: 2.85rem;
+    font-size: 2.68rem;
+  }
+
+  .hero-tagline {
+    font-size: 1.22rem;
   }
 
   .topbar .button-row .ghost-btn,
