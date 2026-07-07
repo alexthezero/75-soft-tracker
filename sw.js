@@ -1,16 +1,16 @@
-const CACHE_NAME = "soft75-tracker-v22";
+const CACHE_NAME = "soft75-tracker-v23";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css?v=14",
   "./final-polish.css?v=18",
-  "./quote-welcome.css?v=22",
+  "./quote-welcome.css?v=23",
   "./script.js?v=6",
   "./pdf-weight.js?v=20",
   "./custom-activity.js?v=13",
-  "./quote-welcome.js?v=22",
-  "./manifest.webmanifest?v=22",
-  "./icon.svg?v=22"
+  "./quote-welcome.js?v=23",
+  "./manifest.webmanifest?v=23",
+  "./icon.svg?v=23"
 ];
 
 self.addEventListener("install", event => {
