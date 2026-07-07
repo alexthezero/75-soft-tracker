@@ -53,6 +53,16 @@
     doc.text("75", pageW - 110, 91);
   }
 
+  function smallContinuationHeader(doc) {
+    fillPage(doc);
+    doc.setFillColor(...GREEN);
+    doc.roundedRect(32, 26, doc.internal.pageSize.getWidth() - 64, 52, 14, 14, "F");
+    doc.setFont("times", "bold");
+    doc.setFontSize(20);
+    doc.setTextColor(...WHITE);
+    doc.text("75-Day Daily List", 50, 59);
+  }
+
   function summaryCard(doc, x, y, w, h, label, value, subtext) {
     doc.setFillColor(...WHITE);
     doc.setDrawColor(...LINE);
@@ -93,6 +103,20 @@
     doc.setTextColor(31, 34, 28);
     const text = "Nothing has been logged yet, so this report is showing your clean starting point. Once you check off tasks, enter water, save weight, or add notes, this PDF will fill in with your real progress.";
     doc.text(doc.splitTextToSize(text, w - 40), x + 20, y + 52);
+  }
+
+  function drawListNote(doc, x, y, w) {
+    doc.setFillColor(230, 236, 223);
+    doc.setDrawColor(209, 220, 203);
+    doc.roundedRect(x, y, w, 48, 14, 14, "FD");
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(10.5);
+    doc.setTextColor(...GREEN_TEXT);
+    doc.text("Blank days are normal.", x + 16, y + 20);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9.5);
+    doc.setTextColor(...MUTED);
+    doc.text("This list is designed to work as both a progress report and a printable 75-day tracker.", x + 16, y + 36);
   }
 
   function exportTrackerPdfWithWeight() {
@@ -215,7 +239,8 @@
     doc.setFont("helvetica", "bold");
     doc.setFontSize(15);
     doc.setTextColor(31, 34, 28);
-    doc.text("Daily Tracker List", 40, 160);
+    doc.text("Daily Tracker List", 40, 158);
+    drawListNote(doc, 40, 173, 532);
 
     const rows = dates.map((date, index) => {
       const e = state.entries[date];
@@ -232,35 +257,43 @@
 
     if (typeof doc.autoTable === "function") {
       doc.autoTable({
-        startY: 178,
+        startY: 240,
         head: [["Day", "Date", "Status", "Water", "Weight", "Activity", "Notes"]],
         body: rows,
         theme: "grid",
-        margin: { left: 32, right: 32, bottom: 44 },
+        margin: { left: 32, right: 32, bottom: 48, top: 96 },
         styles: {
           font: "helvetica",
-          fontSize: 7.8,
-          cellPadding: { top: 5, right: 3.5, bottom: 5, left: 3.5 },
+          fontSize: 8.4,
+          cellPadding: { top: 6.5, right: 4, bottom: 6.5, left: 4 },
           textColor: [31, 34, 28],
           lineColor: LINE,
-          lineWidth: 0.45,
-          overflow: "linebreak"
+          lineWidth: 0.42,
+          overflow: "linebreak",
+          valign: "middle"
         },
         headStyles: {
           fillColor: GREEN,
           textColor: WHITE,
           fontStyle: "bold",
-          halign: "left"
+          fontSize: 8.4,
+          halign: "left",
+          cellPadding: { top: 6, right: 4, bottom: 6, left: 4 }
         },
         alternateRowStyles: { fillColor: [252, 249, 243] },
         columnStyles: {
-          0: { cellWidth: 47, fontStyle: "bold" },
-          1: { cellWidth: 66 },
-          2: { cellWidth: 52 },
-          3: { cellWidth: 48 },
-          4: { cellWidth: 54 },
-          5: { cellWidth: 114 },
-          6: { cellWidth: 167 }
+          0: { cellWidth: 48, fontStyle: "bold" },
+          1: { cellWidth: 70 },
+          2: { cellWidth: 54 },
+          3: { cellWidth: 50 },
+          4: { cellWidth: 56 },
+          5: { cellWidth: 116 },
+          6: { cellWidth: 154 }
+        },
+        willDrawPage: data => {
+          if (data.pageNumber > 1) {
+            smallContinuationHeader(doc);
+          }
         }
       });
     }
