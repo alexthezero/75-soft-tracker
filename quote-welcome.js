@@ -104,3 +104,12 @@
     boot();
   }
 })();
+
+(function loadActivityManager() {
+  if (document.querySelector('script[data-activity-manager]')) return;
+  const script = document.createElement("script");
+  script.src = "activity-manager.js?v=25";
+  script.dataset.activityManager = "true";
+  script.defer = true;
+  document.head.appendChild(script);
+})();
