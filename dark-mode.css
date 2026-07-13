@@ -1,0 +1,228 @@
+html[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+html[data-theme="dark"] body {
+  color: #edf3e9;
+  background:
+    radial-gradient(circle at top left, rgba(85, 112, 74, 0.28), transparent 28rem),
+    radial-gradient(circle at top right, rgba(67, 91, 62, 0.24), transparent 24rem),
+    linear-gradient(180deg, #111710 0%, #171d15 48%, #1d1814 100%);
+}
+
+html[data-theme="dark"] body::before {
+  background-image:
+    radial-gradient(circle at 14px 14px, rgba(177, 207, 158, 0.08) 1.2px, transparent 1.6px),
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+}
+
+html[data-theme="dark"] body::after {
+  opacity: 0.22;
+}
+
+html[data-theme="dark"] .title-num,
+html[data-theme="dark"] .title-main,
+html[data-theme="dark"] .date-controls h2,
+html[data-theme="dark"] .section-heading h2,
+html[data-theme="dark"] .activity-card h2,
+html[data-theme="dark"] .notes-card h2,
+html[data-theme="dark"] .weight-card h2,
+html[data-theme="dark"] .checklist-card h2,
+html[data-theme="dark"] .activity-result h3,
+html[data-theme="dark"] .water-panel h3,
+html[data-theme="dark"] .stat-card strong,
+html[data-theme="dark"] .task strong,
+html[data-theme="dark"] .activity-manager-item strong,
+html[data-theme="dark"] .checklist-manager-item strong {
+  color: #edf3e9;
+}
+
+html[data-theme="dark"] .title-script,
+html[data-theme="dark"] .hero-tagline,
+html[data-theme="dark"] .eyebrow,
+html[data-theme="dark"] .small-label,
+html[data-theme="dark"] .eyebrow-leaf,
+html[data-theme="dark"] .stat-card span,
+html[data-theme="dark"] .activity-type,
+html[data-theme="dark"] .week-day-name,
+html[data-theme="dark"] .start-card > label,
+html[data-theme="dark"] .activity-card label,
+html[data-theme="dark"] .weight-card label {
+  color: #a9c99a;
+}
+
+html[data-theme="dark"] .subtitle,
+html[data-theme="dark"] .hint,
+html[data-theme="dark"] .task span,
+html[data-theme="dark"] .activity-result p:last-of-type,
+html[data-theme="dark"] .week-item p,
+html[data-theme="dark"] .activity-manager-meta,
+html[data-theme="dark"] .checklist-manager-meta {
+  color: #b4bdb0;
+}
+
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .stat-card,
+html[data-theme="dark"] .task,
+html[data-theme="dark"] .week-item,
+html[data-theme="dark"] .activity-manager,
+html[data-theme="dark"] .activity-manager-item,
+html[data-theme="dark"] .checklist-manager,
+html[data-theme="dark"] .checklist-manager-item {
+  background: linear-gradient(180deg, rgba(31, 39, 29, 0.94), rgba(23, 29, 22, 0.90));
+  border-color: rgba(169, 201, 154, 0.16);
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.24);
+}
+
+html[data-theme="dark"] .card::before {
+  background:
+    radial-gradient(circle at top left, rgba(115, 145, 98, 0.12), transparent 24%),
+    radial-gradient(circle at bottom right, rgba(77, 99, 69, 0.10), transparent 28%);
+}
+
+html[data-theme="dark"] .hero-card,
+html[data-theme="dark"] .start-card,
+html[data-theme="dark"] .history-card {
+  background: linear-gradient(180deg, rgba(35, 44, 32, 0.97), rgba(25, 31, 24, 0.92));
+}
+
+html[data-theme="dark"] input,
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea {
+  color: #eef4eb;
+  background: rgba(15, 20, 15, 0.86);
+  border-color: rgba(169, 201, 154, 0.20);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.025);
+}
+
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder {
+  color: #7f897c;
+}
+
+html[data-theme="dark"] input:focus,
+html[data-theme="dark"] select:focus,
+html[data-theme="dark"] textarea:focus {
+  border-color: rgba(169, 201, 154, 0.46);
+  box-shadow: 0 0 0 4px rgba(130, 161, 114, 0.15);
+}
+
+html[data-theme="dark"] .ghost-btn,
+html[data-theme="dark"] .secondary-btn,
+html[data-theme="dark"] .activity-restore-btn,
+html[data-theme="dark"] .checklist-restore-btn {
+  color: #b7d8a7;
+  background: rgba(24, 32, 23, 0.94);
+  border-color: rgba(169, 201, 154, 0.20);
+}
+
+html[data-theme="dark"] .primary-btn,
+html[data-theme="dark"] .quote-welcome-button {
+  color: #10200f;
+  background: linear-gradient(180deg, #a5c994 0%, #86ad75 100%);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.24);
+}
+
+html[data-theme="dark"] .danger-btn,
+html[data-theme="dark"] .activity-delete-btn,
+html[data-theme="dark"] .checklist-delete-btn {
+  color: #efa7a1;
+  background: rgba(121, 50, 45, 0.18);
+  border-color: rgba(213, 118, 109, 0.18);
+}
+
+html[data-theme="dark"] .circle-btn {
+  color: #b7d8a7;
+  background: rgba(128, 159, 112, 0.12);
+  border-color: rgba(169, 201, 154, 0.18);
+}
+
+html[data-theme="dark"] .meter-wrap,
+html[data-theme="dark"] .mini-meter {
+  background: rgba(255,255,255,0.09);
+}
+
+html[data-theme="dark"] .meter-fill,
+html[data-theme="dark"] .mini-meter > div {
+  background: linear-gradient(90deg, #8eb37e 0%, #a8ca98 55%, #7e9f70 100%);
+}
+
+html[data-theme="dark"] .water-panel,
+html[data-theme="dark"] .activity-result,
+html[data-theme="dark"] .water-consumed-card,
+html[data-theme="dark"] .custom-activity-card {
+  background: linear-gradient(180deg, rgba(24, 31, 23, 0.92), rgba(18, 24, 18, 0.88));
+  border-color: rgba(169, 201, 154, 0.14);
+}
+
+html[data-theme="dark"] .task.done {
+  background: rgba(111, 142, 96, 0.20);
+  border-color: rgba(169, 201, 154, 0.25);
+}
+
+html[data-theme="dark"] .day-dot {
+  color: #b7c0b3;
+  background: rgba(18, 24, 18, 0.92);
+  border-color: rgba(169, 201, 154, 0.14);
+}
+
+html[data-theme="dark"] .day-dot.complete {
+  color: #10200f;
+  background: #9abe89;
+  border-color: #9abe89;
+}
+
+html[data-theme="dark"] .day-dot.partial {
+  color: #2a2112;
+  background: #d8bd79;
+  border-color: #d8bd79;
+}
+
+html[data-theme="dark"] .quote-welcome {
+  background:
+    radial-gradient(circle at 16% 8%, rgba(85, 112, 74, 0.32), transparent 26rem),
+    radial-gradient(circle at 90% 0%, rgba(67, 91, 62, 0.28), transparent 24rem),
+    linear-gradient(180deg, #111710 0%, #171d15 54%, #1d1814 100%);
+}
+
+html[data-theme="dark"] .quote-welcome-card {
+  background: linear-gradient(180deg, rgba(35, 44, 32, 0.98), rgba(24, 30, 23, 0.95));
+  border-color: rgba(169, 201, 154, 0.18);
+  box-shadow: 0 26px 72px rgba(0,0,0,0.34);
+}
+
+html[data-theme="dark"] .quote-welcome-title,
+html[data-theme="dark"] .quote-welcome-kicker,
+html[data-theme="dark"] .quote-welcome-author {
+  color: #a9c99a;
+}
+
+html[data-theme="dark"] .quote-welcome-quote {
+  color: #edf3e9;
+}
+
+html[data-theme="dark"] .quote-welcome-date,
+html[data-theme="dark"] .quote-welcome-small {
+  color: #b4bdb0;
+}
+
+.theme-toggle-btn {
+  min-width: 116px;
+}
+
+.theme-toggle-btn::before {
+  content: "◐";
+  margin-right: 7px;
+}
+
+html[data-theme="dark"] .theme-toggle-btn::before {
+  content: "☀";
+}
+
+@media (max-width: 520px) {
+  .theme-toggle-btn {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+}
