@@ -122,3 +122,12 @@
   script.defer = true;
   document.head.appendChild(script);
 })();
+
+(function loadThemeToggle() {
+  if (document.querySelector('script[data-theme-toggle]')) return;
+  const script = document.createElement("script");
+  script.src = "theme-toggle.js?v=27";
+  script.dataset.themeToggle = "true";
+  script.defer = true;
+  document.head.appendChild(script);
+})();
