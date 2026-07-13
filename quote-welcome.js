@@ -131,3 +131,12 @@
   script.defer = true;
   document.head.appendChild(script);
 })();
+
+(function loadChecklistCountdownContext() {
+  if (document.querySelector('script[data-checklist-countdown]')) return;
+  const script = document.createElement("script");
+  script.src = "checklist-countdown-label.js?v=28";
+  script.dataset.checklistCountdown = "true";
+  script.defer = true;
+  document.head.appendChild(script);
+})();
