@@ -113,3 +113,12 @@
   script.defer = true;
   document.head.appendChild(script);
 })();
+
+(function loadChecklistManager() {
+  if (document.querySelector('script[data-checklist-manager]')) return;
+  const script = document.createElement("script");
+  script.src = "checklist-manager.js?v=26";
+  script.dataset.checklistManager = "true";
+  script.defer = true;
+  document.head.appendChild(script);
+})();
